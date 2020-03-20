@@ -6,7 +6,7 @@ render(){
     var value={uri:'https://img.icons8.com/ios/2x/user-male-circle.png'}
     return(
         <SafeAreaView style={styles.container}>
-            <ScrollView style={{backgroundColor:'pink',width:"100%"}}>
+            <ScrollView style={{width:"100%",backgroundColor:'#dbdbd9'}}>
                <View style={{flexDirection:"row",backgroundColor:'blue',height:135}}>
                    <View style={{flex:1,backgroundColor:'white' ,justifyContent:'center'}}>
                        <Text style={styles.welcome}>Welcome!</Text>
@@ -170,7 +170,7 @@ const styles=StyleSheet.create({
         fontSize:20
     },
     sign:{
-        backgroundColor:'#fbfcc2',
+        backgroundColor:'#ffffd4',
         marginLeft:20,
         marginTop:10,
         width:120,
