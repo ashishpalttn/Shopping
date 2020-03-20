@@ -8,16 +8,16 @@ render(){
         <SafeAreaView style={styles.container}>
             <ScrollView style={{backgroundColor:'pink',width:"100%"}}>
                <View style={{flexDirection:"row",backgroundColor:'blue',height:135}}>
-                   <View style={{flex:1,backgroundColor:'green' ,justifyContent:'center'}}>
+                   <View style={{flex:1,backgroundColor:'white' ,justifyContent:'center'}}>
                        <Text style={styles.welcome}>Welcome!</Text>
                        <Text style={styles.sign}>SIGN IN  |  JOIN</Text>
                     </View>
                        
-                   <View style={{flex:1,backgroundColor:'red',justifyContent:'center'}}>
+                   <View style={{flex:1,backgroundColor:'white',justifyContent:'center'}}>
                        <Image style={{width:60,height:60,alignSelf:"flex-end",marginRight:30}} source={value}></Image>
                    </View>
                 </View>
-                <View style={{width:'100%',height:18,backgroundColor:'blue'}}></View>
+                <View style={{width:'100%',height:18,backgroundColor:'#dbdbd9'}}></View>
                 <TouchableOpacity>
                     <View style={styles.track}>
                         <View style={styles.track_item}>
@@ -70,15 +70,18 @@ render(){
                         </View>
                     </View>
                </TouchableOpacity>
-               <View style={{width:'100%',height:18,backgroundColor:'blue'}}></View>
+               <View style={{width:'100%',height:18,backgroundColor:'#dbdbd9'}}></View>
                <TouchableOpacity>
                     <View style={styles.track}>
                         <View style={styles.track_item}>
                             <Image style={styles.icon} source={{uri:'https://img.icons8.com/ios/2x/order-on-the-way.png'}}> 
                             </Image>
-                            <Text style={styles.track_txt}>Track Order</Text>
+                            <Text style={styles.track_txt}>Country</Text>
                         </View>
-                        <View>
+                        <View style={{flexDirection:'row'}}>
+                            <Image style={[styles.icon ,{marginRight:15}]} source={{uri:'https://img.icons8.com/color/2x/kuwait.png'}}> 
+                            </Image>
+                            <Text style={styles.track_txt}>AED</Text>
                             <Image style={[styles.icon ,{marginRight:15}]} source={{uri:'https://img.icons8.com/ios/2x/more-than.png'}}> 
                             </Image>
                         </View>
@@ -91,7 +94,8 @@ render(){
                             </Image>
                             <Text style={styles.track_txt}>Language</Text>
                         </View>
-                        <View>
+                        <View style={{flexDirection:'row'}}>
+                            <Text style={styles.track_txt}>ENG</Text>
                             <Image style={[styles.icon ,{marginRight:15}]} source={{uri:'https://img.icons8.com/ios/2x/more-than.png'}}> 
                             </Image>
                         </View>
@@ -104,7 +108,7 @@ render(){
                             </Image>
                             <Text style={styles.track_txt}>About Us</Text>
                         </View>
-                        <View>
+                        <View style={{flexDirection:'row'}}>
                             <Image style={[styles.icon ,{marginRight:15}]} source={{uri:'https://img.icons8.com/ios/2x/more-than.png'}}> 
                             </Image>
                         </View>
@@ -159,23 +163,24 @@ const styles=StyleSheet.create({
         flex:1,
         justifyContent:"center",
         alignItems:"center",
-        backgroundColor:"yellow"
+        backgroundColor:"white"
     },
     welcome:{
         marginLeft:20,
         fontSize:20
     },
     sign:{
-        backgroundColor:'yellow',
+        backgroundColor:'#fbfcc2',
         marginLeft:20,
         marginTop:10,
-        width:110
+        width:120,
+        padding:5
     },
     track:{
         width:'100%',
         height:60,
         backgroundColor:'white',
-        borderBottomColor:'blue',
+        borderBottomColor:'#dbdbd9',
         borderBottomWidth:.5,
         alignItems:'center',
         justifyContent:"space-between",
