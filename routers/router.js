@@ -1,5 +1,6 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer } from '@react-navigation/native';
+import { MaterialCommunityIcons } from 'react-native-vector-icons';
 import React from 'react';
 import HomeScreen from '../src/components/Home'
 import Category from '../src/components/Categories'
