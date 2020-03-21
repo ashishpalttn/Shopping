@@ -1,44 +1,11 @@
 import { SafeAreaView ,StyleSheet,Text, View,Image} from 'react-native';
 import  React  from "react";
 import { ScrollView, TouchableOpacity, FlatList } from 'react-native-gesture-handler';
-
+import {DATA,ABOUT_DATA} from './flateListData'
+// import {} from './data'
+console.log(DATA)
 class Home extends React.Component{
-    DATA = [
-        {
-          id: 'https://img.icons8.com/ios/2x/order-on-the-way.png',
-          title: 'Track Order',
-        },
-        {
-          id: 'https://img.icons8.com/ios/2x/resize-diagonal.png',
-          title: 'Size Chart',
-        },
-        {
-          id: 'https://img.icons8.com/ios/2x/appointment-reminders.png',
-          title: 'Notifications',
-        },
-        {
-            id: 'https://img.icons8.com/ios/2x/location-off.png',
-            title: 'Store Location',
-          },
-      ];
-      ABOUT_DATA = [
-        {
-          id: 'https://img.icons8.com/ios/2x/user.png',
-          title: 'About Us',
-        },
-        {
-          id: 'https://img.icons8.com/ios/2x/help.png',
-          title: 'FAQ',
-        },
-        {
-          id: 'https://img.icons8.com/ios/2x/product.png',
-          title: 'Shipping & Return',
-        },
-        {
-            id: 'https://img.icons8.com/ios/2x/online-support.png',
-            title: 'Support',
-          },
-      ];
+
     Item({ title,id }) {
         return (
             <TouchableOpacity>
@@ -58,6 +25,7 @@ class Home extends React.Component{
       }
     render(){
         var value={uri:'https://img.icons8.com/ios/2x/user-male-circle.png'}
+        console.log(DATA)
         return(
             <SafeAreaView style={styles.container}>
                 <ScrollView style={{width:"100%",backgroundColor:'#dbdbd9'}}>
@@ -65,20 +33,17 @@ class Home extends React.Component{
                     <View style={styles.welcomeContainer}>
                         <Text style={styles.welcome}>Welcome!</Text>
                         <Text style={styles.sign}>SIGN IN  |  JOIN</Text>
-                        </View>
+                    </View>
                         
                     <View style={styles.imageContainer}>
                         <Image style={styles.profileImage} source={value}></Image>
                     </View>
-                    </View>
-                    <View style={styles.gap}></View>
-                    
-                    <FlatList
-                        data={this.DATA}
-                        renderItem={({item})=><this.Item title={item.title} id={item.id}/>}
-                            />
-                
-
+                </View>
+                <View style={styles.gap}></View>
+                <FlatList
+                    data={DATA}
+                    renderItem={({item})=><this.Item title={item.title} id={item.id}/>}
+                />
                <View style={styles.gap}></View>
                <TouchableOpacity>
                     <View style={styles.track}>
@@ -110,12 +75,10 @@ class Home extends React.Component{
                         </View>
                     </View>
                </TouchableOpacity>
-
-                <FlatList
-                    data={this.ABOUT_DATA}
+               <FlatList
+                    data={ABOUT_DATA}
                     renderItem={({item})=><this.Item title={item.title} id={item.id}/>}
                 />
-
             </ScrollView>
         </SafeAreaView>
     )
@@ -189,7 +152,6 @@ const styles=StyleSheet.create({
         width:'100%',
         height:18,
         backgroundColor:'#dbdbd9'
-}
-    
+}    
 })
 export default Home;
