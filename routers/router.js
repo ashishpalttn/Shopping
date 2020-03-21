@@ -1,6 +1,5 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer } from '@react-navigation/native';
-// import Icon from 'react-native-vector-icons/Ionicons'
 import Icon from 'react-native-vector-icons';
 import { MaterialCommunityIcons } from 'react-native-vector-icons';
 import React from 'react';
@@ -24,11 +23,10 @@ function MyTabs() {
         component={HomeScreen}
        
         options={{
-          showIcon: true ,
           tabBarLabel: 'Home',
-          TabBarIcon: ({ tintColor }) => (
-            <Icon name="home" size={30} color="#900" />
-          )
+          TabBarIcon: ({ color, size }) => (
+            <MaterialCommunityIcons name="home" color={color} size={size} />
+          ),
         }}
       />
       <Tab.Screen name="Caregories" component={Category} />
