@@ -1,10 +1,45 @@
-import { SafeAreaView ,StyleSheet,Text, View,Image} from 'react-native';
-import  React  from "react";
+import { SafeAreaView ,StyleSheet,Text, View,Image,Modal} from 'react-native';
+import React, {Component}  from "react";
 import { ScrollView, TouchableOpacity, FlatList } from 'react-native-gesture-handler';
 import {DATA,ABOUT_DATA} from './flateListData'
-// import {} from './data'
-console.log(DATA)
-class Home extends React.Component{
+
+class Home extends Component{
+    constructor(props){
+        super(props)
+        this.state={
+            modalVisible:false,
+            value:require('./assets/dp.png')
+        }
+    }
+    IMAGE_DATA=[
+        {imageId:require('./assets/pic.jpg'), name:"Ankit"},
+        {imageId:require('./assets/pic10.jpeg'), name:"Monu"},
+        {imageId:require('./assets/pic2.jpeg'), name:"Ajay"},
+        {imageId:require('./assets/pic3.jpeg'), name:"Sachin"},
+        {imageId:require('./assets/pic4.jpeg'), name:"Rahul"},
+        {imageId:require('./assets/pic5.jpeg'), name:"Ankur"},
+        {imageId:require('./assets/pic6.jpeg'), name:"Aman"},
+        {imageId:require('./assets/pic7.jpeg'), name:"Alok"},
+        {imageId:require('./assets/pic8.jpeg'), name:"Shubham"},
+        {imageId:require('./assets/pic9.jpg'), name:"Sonu"}
+        ]
+    ImageItem=({title})=>{
+        console.log(title)
+        return(
+            <View style={{flexDirection:'row',margin:10}}>
+                <TouchableOpacity onPress={()=>{this.setState({value:title.imageId,modalVisible:false})}}>
+                    <Image
+                    style={{width:80,height:80}}
+                    source={title.imageId}
+                    >
+                    </Image>
+                </TouchableOpacity>
+                <Text style={{alignSelf:'center',marginLeft:20}}>
+                    {title.name}
+                </Text>
+        </View>
+        )
+    }
 
     Item({ title,id }) {
         return (
@@ -24,11 +59,38 @@ class Home extends React.Component{
         );
       }
     render(){
-        var value={uri:'https://img.icons8.com/ios/2x/user-male-circle.png'}
-        console.log(DATA)
+        
+        // console.log(this.item)
         return(
             <SafeAreaView style={styles.container}>
                 <ScrollView style={{width:"100%",backgroundColor:'#dbdbd9'}}>
+                     <Modal
+                        animationType="slide"
+                        transparent={true}
+                        visible={this.state.modalVisible}
+                        onRequestClose={() => {
+                        Alert.alert("Modal has been closed.");
+                        }}
+                        >
+                        <View style={styles.centeredView}>
+                        <View style={styles.modalView}>
+                            <Text style={styles.modalText}>Select profile pic!</Text>
+                            <FlatList data={this.IMAGE_DATA}
+                            renderItem={({item})=><this.ImageItem title={item}/>}>
+
+                            </FlatList>
+
+                            <TouchableOpacity
+                            
+                            onPress={() => {
+                                this.setState({modalVisible:false});
+                            }}
+                            >
+                            <Text style={styles.textStyle}>Hide Modal</Text>
+                            </TouchableOpacity>
+                        </View>
+                        </View>
+                        </Modal>
                 <View style={styles.welcomeParentContainer}>
                     <View style={styles.welcomeContainer}>
                         <Text style={styles.welcome}>Welcome!</Text>
@@ -36,13 +98,16 @@ class Home extends React.Component{
                     </View>
                         
                     <View style={styles.imageContainer}>
-                        <Image style={styles.profileImage} source={value}></Image>
+                       <TouchableOpacity onPress={()=>{this.setState({modalVisible:true})}}>
+                            <Image style={styles.profileImage} source={this.state.value}></Image>
+                       </TouchableOpacity>
                     </View>
                 </View>
                 <View style={styles.gap}></View>
                 <FlatList
                     data={DATA}
                     renderItem={({item})=><this.Item title={item.title} id={item.id}/>}
+                    keyExtractor={item=>item.id}
                 />
                <View style={styles.gap}></View>
                <TouchableOpacity>
@@ -78,6 +143,7 @@ class Home extends React.Component{
                <FlatList
                     data={ABOUT_DATA}
                     renderItem={({item})=><this.Item title={item.title} id={item.id}/>}
+                    keyExtractor={item=>item.id}
                 />
             </ScrollView>
         </SafeAreaView>
@@ -120,7 +186,8 @@ const styles=StyleSheet.create({
         width:60,
         height:60,
         alignSelf:"flex-end",
-        marginRight:30
+        marginRight:30,
+        borderRadius:30
 
     },
     track:{
@@ -152,6 +219,23 @@ const styles=StyleSheet.create({
         width:'100%',
         height:18,
         backgroundColor:'#dbdbd9'
-}    
+    },    
+    centeredView: {
+        flex: 1,
+        justifyContent: "center",
+    },
+    modalView: {
+        margin: 80,
+        backgroundColor: "#d7d9d7",
+        borderRadius: 20,
+        padding: 35,
+        alignItems: "center",
+        shadowOpacity: .25,
+        elevation: 5
+    },
+    modalText: {
+        marginBottom: 15,
+        textAlign: "center"
+    }
 })
 export default Home;
