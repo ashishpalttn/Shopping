@@ -1,7 +1,8 @@
-import { SafeAreaView ,StyleSheet,Text, View,Image,Modal} from 'react-native';
+import { SafeAreaView ,StyleSheet,Text, View,Image,Modal, TouchableOpacity} from 'react-native';
 import React, {Component}  from "react";
-import { ScrollView, TouchableOpacity, FlatList } from 'react-native-gesture-handler';
-import {DATA,ABOUT_DATA} from './flateListData'
+import { ScrollView, FlatList } from 'react-native-gesture-handler';
+import {DATA,ABOUT_DATA,IMAGE_DATA} from './flateListData'
+
 
 class Home extends Component{
     constructor(props){
@@ -11,36 +12,20 @@ class Home extends Component{
             value:require('./assets/dp.png')
         }
     }
-    IMAGE_DATA=[
-        {imageId:require('./assets/pic.jpg'), name:"Ankit"},
-        {imageId:require('./assets/pic10.jpeg'), name:"Monu"},
-        {imageId:require('./assets/pic2.jpeg'), name:"Ajay"},
-        {imageId:require('./assets/pic3.jpeg'), name:"Sachin"},
-        {imageId:require('./assets/pic4.jpeg'), name:"Rahul"},
-        {imageId:require('./assets/pic5.jpeg'), name:"Ankur"},
-        {imageId:require('./assets/pic6.jpeg'), name:"Aman"},
-        {imageId:require('./assets/pic7.jpeg'), name:"Alok"},
-        {imageId:require('./assets/pic8.jpeg'), name:"Shubham"},
-        {imageId:require('./assets/pic9.jpg'), name:"Sonu"}
-        ]
-    ImageItem=({title})=>{
-        console.log(title)
-        return(
-            <View style={{flexDirection:'row',margin:10}}>
-                <TouchableOpacity onPress={()=>{this.setState({value:title.imageId,modalVisible:false})}}>
-                    <Image
-                    style={{width:80,height:80}}
-                    source={title.imageId}
-                    >
-                    </Image>
-                </TouchableOpacity>
-                <Text style={{alignSelf:'center',marginLeft:20}}>
-                    {title.name}
-                </Text>
-        </View>
-        )
-    }
-
+    Login=()=>{
+      console.log("hello login")
+          return (
+              <View style={{
+                  flex: 1,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  backgroundColor:"red"
+                }}>
+                <Text>Hello, world!</Text>
+              </View>
+            );
+  }
+   
     Item({ title,id }) {
         return (
             <TouchableOpacity>
@@ -59,8 +44,7 @@ class Home extends Component{
         );
       }
     render(){
-        
-        // console.log(this.item)
+   // console.log(this.item)
         return(
             <SafeAreaView style={styles.container}>
                 <ScrollView style={{width:"100%",backgroundColor:'#dbdbd9'}}>
@@ -75,8 +59,24 @@ class Home extends Component{
                         <View style={styles.centeredView}>
                         <View style={styles.modalView}>
                             <Text style={styles.modalText}>Select profile pic!</Text>
-                            <FlatList data={this.IMAGE_DATA}
-                            renderItem={({item})=><this.ImageItem title={item}/>}>
+                            <FlatList data={IMAGE_DATA}
+                            renderItem={({item})=>{
+                                return(
+                                    <View style={{flexDirection:'row',margin:10}}>
+                                        <TouchableOpacity onPress={()=>{this.setState({value:item.imageId,modalVisible:false})}}>
+                                            <Image
+                                            style={{width:80,height:80}}
+                                            source={item.imageId}
+                                            >
+                                            </Image>
+                                        </TouchableOpacity>
+                                        <Text style={{alignSelf:'center',marginLeft:20}}>
+                                            {item.name}
+                                        </Text>
+                                </View>
+                                )
+                               }
+                            }>
 
                             </FlatList>
 
@@ -94,7 +94,9 @@ class Home extends Component{
                 <View style={styles.welcomeParentContainer}>
                     <View style={styles.welcomeContainer}>
                         <Text style={styles.welcome}>Welcome!</Text>
-                        <Text style={styles.sign}>SIGN IN  |  JOIN</Text>
+                          <TouchableOpacity onPress={()=>{this.Login()}}>
+                            <Text style={styles.sign}>SIGN IN  |  JOIN</Text>
+                       </TouchableOpacity>
                     </View>
                         
                     <View style={styles.imageContainer}>
@@ -152,7 +154,7 @@ class Home extends Component{
 }
 const styles=StyleSheet.create({
     container:{
-        flex:1,
+        flex:.5,
         justifyContent:"center",
         alignItems:"center",
         backgroundColor:"white"
@@ -225,7 +227,7 @@ const styles=StyleSheet.create({
         justifyContent: "center",
     },
     modalView: {
-        margin: 80,
+        margin: 80, 
         backgroundColor: "#d7d9d7",
         borderRadius: 20,
         padding: 35,
