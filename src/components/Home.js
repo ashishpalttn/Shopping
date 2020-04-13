@@ -1,232 +1,96 @@
-import { SafeAreaView ,StyleSheet,Text, View,Image} from 'react-native';
-import  React  from "react";
-import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
-class Home extends React.Component{
-render(){
-    var value={uri:'https://img.icons8.com/ios/2x/user-male-circle.png'}
-    return(
-        <SafeAreaView style={styles.container}>
-            <ScrollView style={{width:"100%",backgroundColor:'#dbdbd9'}}>
-               <View style={styles.welcomeParentContainer}>
-                   <View style={styles.welcomeContainer}>
-                       <Text style={styles.welcome}>Welcome!</Text>
-                       <Text style={styles.sign}>SIGN IN  |  JOIN</Text>
-                    </View>
-                       
-                   <View style={styles.imageContainer}>
-                       <Image style={styles.profileImage} source={value}></Image>
-                   </View>
-                </View>
-                <View style={styles.gap}></View>
-                <TouchableOpacity>
-                    <View style={styles.track}>
-                        <View style={styles.trackItem}>
-                            <Image style={styles.icon} source={{uri:'https://img.icons8.com/ios/2x/order-on-the-way.png'}}> 
-                            </Image>
-                            <Text style={styles.trackText}>Track Order</Text>
-                        </View>
-                        <View>
-                            <Image style={[styles.icon ,{marginRight:15}]} source={{uri:'https://img.icons8.com/ios/2x/more-than.png'}}> 
-                            </Image>
-                        </View>
-                    </View>
-               </TouchableOpacity>
-               <TouchableOpacity>
-                    <View style={styles.track}>
-                        <View style={styles.trackItem}>
-                            <Image style={styles.icon} source={{uri:'https://img.icons8.com/ios/2x/resize-diagonal.png'}}> 
-                            </Image>
-                            <Text style={styles.trackText}>Size Chart</Text>
-                        </View>
-                        <View>
-                            <Image style={[styles.icon ,{marginRight:15}]} source={{uri:'https://img.icons8.com/ios/2x/more-than.png'}}> 
-                            </Image>
-                        </View>
-                    </View>
-               </TouchableOpacity>
-               <TouchableOpacity>
-                    <View style={styles.track}>
-                        <View style={styles.trackItem}>
-                            <Image style={styles.icon} source={{uri:'https://img.icons8.com/ios/2x/appointment-reminders.png'}}> 
-                            </Image>
-                            <Text style={styles.trackText}>Notifications</Text>
-                        </View>
-                        <View>
-                            <Image style={[styles.icon ,{marginRight:15}]} source={{uri:'https://img.icons8.com/ios/2x/more-than.png'}}> 
-                            </Image>
-                        </View>
-                    </View>
-               </TouchableOpacity>
-               <TouchableOpacity>
-                    <View style={styles.track}>
-                        <View style={styles.trackItem}>
-                            <Image style={styles.icon} source={{uri:'https://img.icons8.com/ios/2x/location-off.png'}}> 
-                            </Image>
-                            <Text style={styles.trackText}>Store Location</Text>
-                        </View>
-                        <View>
-                            <Image style={[styles.icon ,{marginRight:15}]} source={{uri:'https://img.icons8.com/ios/2x/more-than.png'}}> 
-                            </Image>
-                        </View>
-                    </View>
-               </TouchableOpacity>
-               <View style={styles.gap}></View>
-               <TouchableOpacity>
-                    <View style={styles.track}>
-                        <View style={styles.trackItem}>
-                            <Image style={styles.icon} source={{uri:'https://img.icons8.com/ios/2x/order-on-the-way.png'}}> 
-                            </Image>
-                            <Text style={styles.trackText}>Country</Text>
-                        </View>
-                        <View style={{flexDirection:'row'}}>
-                            <Image style={[styles.icon ,{marginRight:15}]} source={{uri:'https://img.icons8.com/color/2x/kuwait.png'}}> 
-                            </Image>
-                            <Text style={styles.trackText}>AED</Text>
-                            <Image style={[styles.icon ,{marginRight:15}]} source={{uri:'https://img.icons8.com/ios/2x/more-than.png'}}> 
-                            </Image>
-                        </View>
-                    </View>
-               </TouchableOpacity>
-               <TouchableOpacity>
-                    <View style={styles.track}>
-                        <View style={styles.trackItem}>
-                            <Image style={styles.icon} source={{uri:'https://img.icons8.com/ios/2x/translation.png'}}> 
-                            </Image>
-                            <Text style={styles.trackText}>Language</Text>
-                        </View>
-                        <View style={{flexDirection:'row'}}>
-                            <Text style={styles.trackText}>ENG</Text>
-                            <Image style={[styles.icon ,{marginRight:15}]} source={{uri:'https://img.icons8.com/ios/2x/more-than.png'}}> 
-                            </Image>
-                        </View>
-                    </View>
-               </TouchableOpacity>
-               <TouchableOpacity>
-                    <View style={styles.track}>
-                        <View style={styles.trackItem}>
-                            <Image style={styles.icon} source={{uri:'https://img.icons8.com/ios/2x/user.png'}}> 
-                            </Image>
-                            <Text style={styles.trackText}>About Us</Text>
-                        </View>
-                        <View style={{flexDirection:'row'}}>
-                            <Image style={[styles.icon ,{marginRight:15}]} source={{uri:'https://img.icons8.com/ios/2x/more-than.png'}}> 
-                            </Image>
-                        </View>
-                    </View>
-               </TouchableOpacity>
-               <TouchableOpacity>
-                    <View style={styles.track}>
-                        <View style={styles.trackItem}>
-                            <Image style={styles.icon} source={{uri:'https://img.icons8.com/ios/2x/help.png'}}> 
-                            </Image>
-                            <Text style={styles.trackText}>FAQ</Text>
-                        </View>
-                        <View>
-                            <Image style={[styles.icon ,{marginRight:15}]} source={{uri:'https://img.icons8.com/ios/2x/more-than.png'}}> 
-                            </Image>
-                        </View>
-                    </View>
-               </TouchableOpacity>
-               <TouchableOpacity>
-                    <View style={styles.track}>
-                        <View style={styles.trackItem}>
-                            <Image style={styles.icon} source={{uri:'https://img.icons8.com/ios/2x/product.png'}}> 
-                            </Image>
-                            <Text style={styles.trackText}>Shipping &amp; Return </Text>
-                        </View>
-                        <View>
-                            <Image style={[styles.icon ,{marginRight:15}]} source={{uri:'https://img.icons8.com/ios/2x/more-than.png'}}> 
-                            </Image>
-                        </View>
-                    </View>
-               </TouchableOpacity>
-               <TouchableOpacity>
-                    <View style={styles.track}>
-                        <View style={styles.trackItem}>
-                            <Image style={styles.icon} source={{uri:'https://img.icons8.com/ios/2x/online-support.png'}}> 
-                            </Image>
-                            <Text style={styles.trackText}>Support</Text>
-                        </View>
-                        <View>
-                            <Image style={[styles.icon ,{marginRight:15}]} source={{uri:'https://img.icons8.com/ios/2x/more-than.png'}}> 
-                            </Image>
-                        </View>
-                    </View>
-               </TouchableOpacity>
-            </ScrollView>
-        </SafeAreaView>
-    )
-}
-}
-const styles=StyleSheet.create({
-    container:{
-        flex:1,
-        justifyContent:"center",
-        alignItems:"center",
-        backgroundColor:"white"
-    },
-    welcomeParentContainer:{
-        flexDirection:"row",
-        backgroundColor:'blue',
-        height:135
-    },
-    welcomeContainer:{flex:1,
-        backgroundColor:'white' ,
-        justifyContent:'center'
-    },
-    welcome:{
-        marginLeft:20,
-        fontSize:20
-    
-    },
-    imageContainer:{flex:1,
-        backgroundColor:'white',
-        justifyContent:'center'
-    },
-    sign:{
-        backgroundColor:'#ffffd4',
-        marginLeft:20,
-        marginTop:10,
-        width:120,
-        padding:5
-    },
-    profileImage:{
-        width:60,
-        height:60,
-        alignSelf:"flex-end",
-        marginRight:30
+import React from 'react';
+import {
+  View,
+  SafeAreaView,
+  StyleSheet,
+  FlatList,
+  Text,
+  ActivityIndicator,
+} from 'react-native';
+export default class ApiFetch extends React.Component {
+  state = {
+    data: null,
+  };
 
-    },
-    track:{
-        width:'100%',
-        height:60,
-        backgroundColor:'white',
-        borderBottomColor:'#dbdbd9',
-        borderBottomWidth:.5,
-        alignItems:'center',
-        justifyContent:"space-between",
-        flexDirection:'row'
-   
-    },
-    trackItem:{
-        flexDirection:'row',
-        // alignItems:'center',
-    },
-    icon:{
-        width:30,
-        height:30,
-        marginLeft:20
-    },
-    trackText:{
-        marginLeft:20,
-        marginTop:3,
-        fontSize:20
-    },
-    gap:{
-        width:'100%',
-        height:18,
-        backgroundColor:'#dbdbd9'
+  fetch=()=>{
+    fetch('https://jsonplaceholder.typicode.com/posts')
+      .then(responce => {
+        return responce.json();
+      })
+      .then(data => {
+        this.setState({data});
+        // console.log(data)
+      });
+    };
+
+  componentDidMount() {
+      this.fetch()
+  }
+  Item = ({title}) => {
+    // console.log('item= ',title)
+    return (
+      <View>
+        <View style={styles.itemView}>
+          <View style={{flexDirection: 'row'}}>
+            <Text style={{fontSize: 20}}>User = </Text>
+            <Text style={{fontSize: 20, marginRight: 50}}>
+              {title.item.userId}
+            </Text>
+          </View>
+          <View style={{flexDirection: 'row'}}>
+            <Text style={{fontSize: 20}}> Id = </Text>
+            <Text style={{fontSize: 20}}>{title.item.id}</Text>
+          </View>
+          <View style={{flexDirection: 'row'}}>
+            <Text style={{fontSize: 20}}>Title = </Text>
+            <Text style={{fontSize: 20, paddingRight: 65}}>
+              {title.item.title}
+            </Text>
+          </View>
+          <View style={{flexDirection: 'row'}}>
+            <Text style={{fontSize: 20}}>Body = </Text>
+            <Text style={{fontSize: 20, paddingRight: 60}}>
+              {title.item.body}
+            </Text>
+          </View>
+        </View>
+        <View style={styles.line} />
+      </View>
+    );
+  };
+  render() {
+    if (!this.state.data) {
+      return (
+        <View style={styles.indicator}>
+          <ActivityIndicator size={'large'} color="red" />
+        </View>
+      );
+    }
+    return (
+      <SafeAreaView style={styles.container}>
+        <FlatList
+          data={this.state.data}
+          renderItem={(title)=> this.Item({title})}
+        />
+      </SafeAreaView>
+    );
+  }
 }
-    
-})
-export default Home;
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#d0d4cf',
+  },
+  indicator: {
+    flex: 1,
+    justifyContent: 'center',
+  },
+  itemView:{
+    backgroundColor: '#d0d4cf', 
+    padding: 10
+  },
+  line:{width: '100%', 
+  height: 2, 
+  backgroundColor: '#a9aba9'
+  }
+});

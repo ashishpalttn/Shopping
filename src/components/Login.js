@@ -8,350 +8,226 @@ import {
   Image,
   StyleSheet,
 } from 'react-native';
-import {Dropdown} from 'react-native-material-dropdown';
+import AsyncStorage from '@react-native-community/async-storage';
+import {Map} from './Map';
 export class Login extends React.Component {
   constructor(props) {
     super(props);
+
     this.state = {
       buttonName: 'Show',
       passwordShow: true,
-      value: '',
+      username: '',
+      password: '',
+      responce: 403,
+      token: '',
+      data: [],
     };
   }
+  storeData = token => {
+    AsyncStorage.setItem('token', token).then(res => {
+      console.log('token stored', token);
+    });
+  };
+  getData = () => {
+    // const value = await AsyncStorage.getItem('token');
+    AsyncStorage.getItem('token').then(storeToken => {
+      this.setState({token: storeToken});
+      console.log('Token got', this.state.token);
+      this.dataApi();
+    });
+  };
+
+  authenticationApi = () => {
+    fetch(
+      'https://admin-stage.priskoll.occdev.axfood.se/axfood/axfood-security/login',
+
+      {
+        method: 'POST',
+        body: JSON.stringify({
+          username: this.state.username,
+          password: this.state.password,
+        }),
+      },
+    ).then(responce => {
+      // console.log("Token=",responce.headers.map.authorization);
+      // this.setState({token:responce.headers.map.authorization})
+      let token = responce.headers.map.authorization;
+      token = token.slice(7);
+      this.storeData(token);
+      this.setState({responce: responce.status});
+      this.getData();
+
+      return responce.json();
+    });
+    // .then((data)=>{
+    //   this.setState({data})
+    // })
+  };
+
+  dataApi = () => {
+    fetch(
+      'https://admin-stage.priskoll.occdev.axfood.se/axfood/axfood-product-scan/stores',
+      {
+        method: 'GET',
+        headers: {
+          authorization: this.state.token,
+        },
+      },
+    )
+      .then(responce => {
+        // console.log("DATA Api= ",responce)
+        return responce.json();
+      })
+      .then(data => {
+        this.setState({data});
+        // console.log('Api Data=',data)
+      });
+  };
+
   render() {
-    return (
-      <SafeAreaView style={styles.loginModalParentView}>
-        <View style={styles.imageView}>
-          <TouchableOpacity onPress={() => this.props.toggleScreen(1)}>
-            <Image
-              style={styles.cross}
-              source={{uri: 'https://img.icons8.com/ios/2x/multiply.png'}}
+    console.log('storedToken=', this.state.token);
+    if (this.state.responce == 403) {
+      return (
+        <SafeAreaView style={styles.loginModalParentView}>
+          <View style={styles.imageView}>
+            <TouchableOpacity onPress={() => this.props.toggleScreen(1)}>
+              <Image
+                style={styles.cross}
+                source={{uri: 'https://img.icons8.com/ios/2x/multiply.png'}}
+              />
+            </TouchableOpacity>
+          </View>
+          <View style={styles.signInParentView}>
+            <TouchableOpacity>
+              <View style={styles.signInView}>
+                <Text style={{fontSize: 22}}>Sign In</Text>
+              </View>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => this.props.toggleScreen(3)}>
+              <Text style={styles.join}>Join</Text>
+            </TouchableOpacity>
+          </View>
+          <View style={styles.inputView}>
+            <TextInput
+              placeholder={'Your Email Address'}
+              autoCompleteType="username"
+              onChangeText={username => this.setState({username})}
+              value={this.state.username}
+              style={styles.inputEmail}
             />
-          </TouchableOpacity>
-        </View>
-        <View style={styles.signInParentView}>
-          <TouchableOpacity>
-            <View style={styles.signInView}>
-              <Text style={{fontSize: 22}}>Sign In</Text>
-            </View>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => this.props.toggleScreen(3)}>
-            <Text style={styles.join}>Join</Text>
-          </TouchableOpacity>
-        </View>
-        <View
-          style={{
-            width: '100%',
-            height: 60,
-            backgroundColor: 'white',
-            marginTop: 30,
-          }}>
-          <TextInput
-            placeholder={'Your Email Address'}
-            onChangeText={value => this.setState({value})}
-            value={this.state.value}
-            style={styles.inputEmail}
-          />
-        </View>
-        <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-          <TextInput
-            placeholder="Password"
-            secureTextEntry={this.state.passwordShow}
-            style={[styles.inputPass]}
-          />
-          <View style={styles.buttonView}>
-            <Text
-              style={[styles.passButton]}
-              onPress={() => {
-                this.state.passwordShow == false
-                  ? this.setState({passwordShow: true, buttonName: 'Show'})
-                  : this.setState({passwordShow: false, buttonName: 'Hide '});
-              }}>
-              {this.state.buttonName}
-            </Text>
           </View>
-        </View>
-        <View style={{alignItems: 'center', marginTop: 30}}>
-          <Text>Forget Passords?</Text>
-        </View>
-        <View
-          style={{
-            backgroundColor: 'black',
-            paddingVertical: 17,
-            marginHorizontal: 20,
-            alignItems: 'center',
-            marginTop: 40,
-          }}>
-          <TouchableOpacity>
-            <Text style={{fontSize: 20, color: 'white'}}>Sign In</Text>
-          </TouchableOpacity>
-        </View>
-        <View style={{alignItems: 'center', marginTop: 30}}>
-          <Text>Or Sign In via</Text>
-        </View>
-        <View
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'space-around',
-            marginHorizontal: 10,
-            marginTop: 20,
-          }}>
-          <View>
-            <TouchableOpacity>
-              <View style={styles.facebook}>
-                <Image
-                  style={styles.facebookImage}
-                  source={{
-                    uri:
-                      'https://cdn1.iconfinder.com/data/icons/logotypes/32/facebook-128.png',
-                  }}
-                />
-                <Text style={{margin: 10, fontSize: 20}}>Facebook</Text>
-              </View>
-            </TouchableOpacity>
-          </View>
-          <View>
-            <TouchableOpacity>
-              <View style={styles.facebook}>
-                <Image
-                  style={{width: 40, height: 40}}
-                  source={{
-                    uri:
-                      'https://cdn0.iconfinder.com/data/icons/social-network-7/50/2-128.png',
-                  }}
-                />
-                <Text style={{margin: 10, fontSize: 20}}>Google</Text>
-              </View>
-            </TouchableOpacity>
-          </View>
-        </View>
-        <View style={{justifyContent: 'flex-end', flex: 1}}>
-          <TouchableOpacity
-            onPress={() => {
-              this.props.a(3);
-            }}>
-            <View style={styles.acount}>
-              <Text style={{fontSize: 16, color: '#6e6e6e'}}>
-                {' '}
-                Don't have an account?
+          <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+            <TextInput
+              placeholder="Password"
+              onChangeText={password => this.setState({password})}
+              secureTextEntry={this.state.passwordShow}
+              value={this.state.password}
+              style={[styles.inputPass]}
+            />
+            <View style={styles.buttonView}>
+              <Text
+                style={[styles.passButton]}
+                onPress={() => {
+                  this.state.passwordShow == false
+                    ? this.setState({passwordShow: true, buttonName: 'Show'})
+                    : this.setState({passwordShow: false, buttonName: 'Hide '});
+                }}>
+                {this.state.buttonName}
               </Text>
-              <Text style={{fontSize: 18}}> Join</Text>
             </View>
-          </TouchableOpacity>
-        </View>
-      </SafeAreaView>
-    );
-  }
-}
-
-export class SignIn extends React.Component {
-  radioNot =
-    'https://cdn3.iconfinder.com/data/icons/materia-interface-vol-2/24/008_083_radio_button_unchecked_control-128.png';
-  radio =
-    'https://cdn3.iconfinder.com/data/icons/materia-interface-vol-2/24/008_082_radio_button_checked_control-128.png';
-  check =
-    'https://cdn4.iconfinder.com/data/icons/social-productivity-line-art-4/128/checkbox-square-checked-128.png';
-  notCheck =
-    'https://cdn4.iconfinder.com/data/icons/social-productivity-line-art-4/128/checkbox-square-unchecked-128.png';
-  constructor(props) {
-    super(props);
-    this.state = {
-      value: '',
-      passwordShow: true,
-      buttonName: 'Show',
-      checkButton: this.notCheck,
-      male: this.radioNot,
-      female: this.radioNot,
-    };
-  }
-  render() {
-    let data = [
-      {
-        value: 10,
-      },
-      {
-        value: 20,
-      },
-      {
-        value: 40,
-      },
-    ];
-    return (
-      <SafeAreaView style={[styles.loginModalParentView]}>
-        <View style={styles.imageView}>
-          <TouchableOpacity onPress={() => this.props.toggleScreen(1)}>
-            <Image
-              style={{width: 40, height: 40, marginRight: 15}}
-              source={{uri: 'https://img.icons8.com/ios/2x/multiply.png'}}
-            />
-          </TouchableOpacity>
-        </View>
-        <View style={styles.signInParentView}>
-          <TouchableOpacity onPress={() => this.props.toggleScreen(2)}>
-            <View style={{marginLeft: 13}}>
-              <Text style={{fontSize: 22, color: '#bfbdb8'}}>Sign In</Text>
+          </View>
+          <View style={{alignItems: 'center', marginTop: 30}}>
+            <Text>Forget Passords?</Text>
+          </View>
+          <View style={styles.signInButtonView}>
+            <TouchableOpacity onPress={this.authenticationApi}>
+              <Text style={{fontSize: 20, color: 'white'}}>Sign In</Text>
+            </TouchableOpacity>
+          </View>
+          <View style={{alignItems: 'center', marginTop: 30}}>
+            <Text>Or Sign In via</Text>
+          </View>
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'space-around',
+              marginHorizontal: 10,
+              marginTop: 20,
+            }}>
+            <View>
+              <TouchableOpacity>
+                <View style={styles.facebook}>
+                  <Image
+                    style={styles.facebookImage}
+                    source={{
+                      uri:
+                        'https://cdn1.iconfinder.com/data/icons/logotypes/32/facebook-128.png',
+                    }}
+                  />
+                  <Text style={{margin: 10, fontSize: 20}}>Facebook</Text>
+                </View>
+              </TouchableOpacity>
             </View>
-          </TouchableOpacity>
-          <TouchableOpacity>
-            <View style={styles.signInView}>
-              <Text style={{fontSize: 22}}>Join</Text>
+            <View>
+              <TouchableOpacity>
+                <View style={styles.facebook}>
+                  <Image
+                    style={{width: 40, height: 40}}
+                    source={{
+                      uri:
+                        'https://cdn0.iconfinder.com/data/icons/social-network-7/50/2-128.png',
+                    }}
+                  />
+                  <Text style={{margin: 10, fontSize: 20}}>Google</Text>
+                </View>
+              </TouchableOpacity>
             </View>
-          </TouchableOpacity>
-        </View>
-        <View style={styles.inputText}>
-          <TextInput
-            placeholder={'First Name'}
-            style={styles.inputEmail}
-            onChangeText={value => this.setState({value})}
-            value={this.state.value}
-          />
-        </View>
-        <View style={styles.inputText}>
-          <TextInput placeholder={'Last Name'} style={styles.inputEmail} />
-        </View>
-        <View style={styles.inputText}>
-          <TextInput placeholder={'Your Email'} style={styles.inputEmail} />
-        </View>
-        <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-          <TextInput
-            placeholder="Password"
-            secureTextEntry={this.state.passwordShow}
-            style={[styles.inputPass]}
-          />
-          <View style={styles.buttonView}>
-            <Text
-              style={[styles.passButton]}
+          </View>
+          <View style={{justifyContent: 'flex-end', flex: 1}}>
+            <TouchableOpacity
               onPress={() => {
-                this.state.passwordShow == false
-                  ? this.setState({passwordShow: true, buttonName: 'Show'})
-                  : this.setState({passwordShow: false, buttonName: 'Hide '});
+                this.props.toggleScreen(3);
               }}>
-              {this.state.buttonName}
-            </Text>
-          </View>
-        </View>
-        <View
-          style={[styles.inputEmail, {marginTop: 15, flexDirection: 'row'}]}>
-          <Image
-            style={styles.country}
-            source={{
-              uri:
-                'https://cdn4.iconfinder.com/data/icons/world-flags-circular/1000/Flag_of_India_-_Circle-128.png',
-            }}
-          />
-          <Text style={{margin: 10, fontSize: 20}}>+91 | </Text>
-          <Dropdown
-            fontSize={22}
-            label={87}
-            data={data}
-            containerStyle={styles.drop}
-          />
-          <Text style={{margin: 10, fontSize: 20}}> | 1234567</Text>
-        </View>
-        <View style={styles.maleParentView}>
-          <TouchableOpacity
-            style={{flexDirection: 'row'}}
-            onPress={() => {
-              this.state.male == this.radioNot
-                ? this.setState({male: this.radio, female: this.radioNot})
-                : this.setState({male: this.radioNot});
-            }}>
-            <Image
-              style={{width: 30, height: 30}}
-              source={{uri: this.state.male}}
-            />
-            <Text style={{margin: 8}}>Male</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={{flexDirection: 'row'}}
-            onPress={() => {
-              this.state.female == this.radioNot
-                ? this.setState({female: this.radio, male: this.radioNot})
-                : this.setState({female: this.radioNot});
-            }}>
-            <Image
-              style={{width: 30, height: 30}}
-              source={{uri: this.state.female}}
-            />
-            <Text style={{margin: 8}}>Female</Text>
-          </TouchableOpacity>
-        </View>
-        <View style={styles.checkButtons}>
-          <TouchableOpacity
-            onPress={() => {
-              this.state.checkButton == this.notCheck
-                ? this.setState({checkButton: this.check})
-                : this.setState({checkButton: this.notCheck});
-            }}>
-            <Image
-              style={styles.checks}
-              source={{uri: this.state.checkButton}}
-            />
-          </TouchableOpacity>
-          <View style={{marginRight: 20}}>
-            <Text style={{marginRight: 20, fontSize: 15}}>
-              Be the first to know about new arrivals, and promos by submitting
-              your email you can opt at any time.
-            </Text>
-          </View>
-        </View>
-        <View
-          style={{
-            backgroundColor: 'black',
-            paddingVertical: 17,
-            marginHorizontal: 20,
-            alignItems: 'center',
-            marginTop: 20,
-          }}>
-          <TouchableOpacity>
-            <Text style={{fontSize: 20, color: 'white'}}>Join Now</Text>
-          </TouchableOpacity>
-        </View>
-
-        <View style={{alignItems: 'center', marginTop: 30}}>
-          <Text>Or Sign In via</Text>
-        </View>
-        <View
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'space-around',
-            marginHorizontal: 10,
-            marginTop: 20,
-          }}>
-          <View>
-            <TouchableOpacity>
-              <View style={styles.facebook}>
-                <Image
-                  style={styles.facebookImage}
-                  source={{
-                    uri:
-                      'https://cdn1.iconfinder.com/data/icons/logotypes/32/facebook-128.png',
-                  }}
-                />
-                <Text style={{margin: 10, fontSize: 20}}>Facebook</Text>
+              <View style={styles.acount}>
+                <Text style={{fontSize: 16, color: '#6e6e6e'}}>
+                  {/* {' '} */}
+                  Don't have an account?
+                </Text>
+                <Text style={{fontSize: 18}}> Join</Text>
               </View>
             </TouchableOpacity>
           </View>
-          <View>
-            <TouchableOpacity>
-              <View style={styles.facebook}>
-                <Image
-                  style={{width: 40, height: 40}}
-                  source={{
-                    uri:
-                      'https://cdn0.iconfinder.com/data/icons/social-network-7/50/2-128.png',
-                  }}
-                />
-                <Text style={{margin: 10, fontSize: 20}}>Google</Text>
-              </View>
-            </TouchableOpacity>
-          </View>
-        </View>
-      </SafeAreaView>
-    );
+        </SafeAreaView>
+      );
+    } else if (this.state.responce == 200) {
+      // console.log('LoginData=',this.state.data)
+      return <Map apiData={this.state.data} />;
+    }
   }
 }
+
 const styles = StyleSheet.create({
+  joinNowView: {
+    backgroundColor: 'black',
+    paddingVertical: 17,
+    marginHorizontal: 20,
+    alignItems: 'center',
+    marginTop: 20,
+  },
+  signInButtonView: {
+    backgroundColor: 'black',
+    paddingVertical: 17,
+    marginHorizontal: 20,
+    alignItems: 'center',
+    marginTop: 40,
+  },
+  inputView: {
+    width: '100%',
+    height: 60,
+    backgroundColor: 'white',
+    marginTop: 30,
+  },
   drop: {marginTop: -27, width: 60, margin: 2},
   checks: {width: 22, height: 22, marginRight: 10},
   country: {width: 25, height: 25, marginVertical: 10},

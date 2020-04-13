@@ -11,7 +11,8 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import {DATA, ABOUT_DATA, IMAGE_DATA} from './flateListData';
-import {Login, SignIn} from './Login';
+import {Login} from './Login';
+import SignIn from './SignIn'
 class Head extends React.Component {
   constructor(props) {
     super(props);
@@ -20,7 +21,6 @@ class Head extends React.Component {
     };
   }
   updateState = ScreenNumber => {
-    console.log('hello');
     this.setState({toggle: ScreenNumber});
   };
   toogleTabs = () => {
