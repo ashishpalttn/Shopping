@@ -7,36 +7,46 @@ import {
   TextInput,
   Image,
   StyleSheet,
-} from 'react-native';
+}
+from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import {Map} from './Map';
 export class Login extends React.Component {
   constructor(props) {
     super(props);
-
     this.state = {
       buttonName: 'Show',
       passwordShow: true,
-      username: '',
-      password: '',
-      responce: 403,
-      token: '',
+      username: 'axfood',
+      password: 'axfood@123',
+      token: "",
       data: [],
     };
   }
-  storeData = token => {
-    AsyncStorage.setItem('token', token).then(res => {
+  componentDidMount(){
+    this.getData()
+    this.dataApi()
+  }
+  storeData = async(token) => {
+   await AsyncStorage.setItem('token', token).then(res => {
       console.log('token stored', token);
     });
   };
-  getData = () => {
-    // const value = await AsyncStorage.getItem('token');
-    AsyncStorage.getItem('token').then(storeToken => {
+  getData = async () => {
+    const storeToken = await AsyncStorage.getItem('token')
       this.setState({token: storeToken});
-      console.log('Token got', this.state.token);
+      // console.log('Token set in state',this.state.token);
       this.dataApi();
-    });
+    
   };
+
+  deleteToken=()=>{
+    AsyncStorage.removeItem('token').then((res)=>{
+      this.setState({token:""})
+      console.log("tokenDeleten..........")
+    })
+  
+  }
 
   authenticationApi = () => {
     fetch(
@@ -50,19 +60,13 @@ export class Login extends React.Component {
         }),
       },
     ).then(responce => {
-      // console.log("Token=",responce.headers.map.authorization);
-      // this.setState({token:responce.headers.map.authorization})
       let token = responce.headers.map.authorization;
       token = token.slice(7);
       this.storeData(token);
-      this.setState({responce: responce.status});
+      // this.setState({responce: responce.status});
       this.getData();
-
-      return responce.json();
+      // return responce.json();
     });
-    // .then((data)=>{
-    //   this.setState({data})
-    // })
   };
 
   dataApi = () => {
@@ -87,7 +91,7 @@ export class Login extends React.Component {
 
   render() {
     console.log('storedToken=', this.state.token);
-    if (this.state.responce == 403) {
+    if (!this.state.token) {
       return (
         <SafeAreaView style={styles.loginModalParentView}>
           <View style={styles.imageView}>
@@ -200,14 +204,18 @@ export class Login extends React.Component {
           </View>
         </SafeAreaView>
       );
-    } else if (this.state.responce == 200) {
-      // console.log('LoginData=',this.state.data)
-      return <Map apiData={this.state.data} />;
+    
+    } else {
+    return <Map  signOut={this.deleteToken} apiData={this.state.data}/>;
     }
   }
 }
 
 const styles = StyleSheet.create({
+  indicator: {
+    flex: 1,
+    justifyContent: 'center',
+  },
   joinNowView: {
     backgroundColor: 'black',
     paddingVertical: 17,
